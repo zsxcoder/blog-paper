@@ -2,6 +2,7 @@
   "ui": {
     "posts": "記事",
     "memos": "メモ",
+    "mastodon": "マストドン",
     "about": "紹介",
     "photos": "写真",
     "allposts": "すべての記事",

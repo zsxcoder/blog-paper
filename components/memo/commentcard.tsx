@@ -16,13 +16,33 @@ type Props = {
 
 export default function CommentCard({ setIsCommentModal }: Props) {
   const [comments, setComments] = useState<Array<Pick<WalineComment, "objectId" | "comment">>>([{ objectId: 0x00, comment: "等等，好像没有评论哦~" }])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    if (!siteInfo.walineApi) {
+      setLoading(false)
+      return
+    }
+
     const path = encodeURIComponent(globalThis.location.pathname)
     fetch(siteInfo.walineApi + "/comment?path=" + path + "&pageSize=10&page=1&lang=en-US&sortBy=insertedAt_desc")
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(`HTTP ${res.status}`)
+        }
+        return res.json()
+      })
       .then(data => {
-        setComments(data.data)
+        if (data.data && data.data.length > 0) {
+          setComments(data.data)
+        }
+      })
+      .catch(err => {
+        console.error('Failed to fetch comments:', err)
+        // Keep default comment
+      })
+      .finally(() => {
+        setLoading(false)
       })
   }, [])
 
@@ -30,7 +50,7 @@ export default function CommentCard({ setIsCommentModal }: Props) {
 
     <CardCommon title={i18next.t("latestcomments")} Icon={MessageSquare}>
       <Container>
-        {comments.map(item => <li key={item.objectId}>{item.comment.replace(/<[^>]*>/g, '')}</li>)}
+        {loading ? <LoadingText>加载中...</LoadingText> : comments.map(item => <li key={item.objectId}>{item.comment.replace(/<[^>]*>/g, '')}</li>)}
       </Container>
       <ModalButton onClick={() => { setIsCommentModal(true) }}>
         <PencilLine size="1em" style={{ marginRight: "0.5em" }} />
@@ -50,8 +70,13 @@ const Container = styled.div`
     list-style: none;
     height: 1.5em;
     overflow: hidden;
-  }
+  }`
+
+const LoadingText = styled.div`
+  opacity: 0.5;
+  font-size: 0.875rem;
 `
+
 const ModalButton = styled.button`
   margin-top: 2rem;
   max-width: 8rem;

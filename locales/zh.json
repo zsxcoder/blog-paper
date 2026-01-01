@@ -2,6 +2,7 @@
   "ui": {
     "posts": "文章",
     "memos": "说说",
+    "mastodon": "嘟文",
     "about": "关于",
     "photos": "图片",
     "allposts": "所有文章",

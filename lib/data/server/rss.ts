@@ -169,7 +169,7 @@ async function createRss() {
     language: "zh-CN", // optional, used only in RSS 2.0, possible values: http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes
     // image: `${SiteInfo.domain}/avatar-white.png`,
     favicon: `${siteInfo.domain}/favicon.ico`,
-    copyright: `All rights reserved 2022, ${siteInfo.author}`,
+    copyright: `All rights reserved 2026, ${siteInfo.author}`,
     // updated: new Date(2013, 6, 14), // optional, default = today
     // generator: "awesome", // optional, default = 'Feed for Node.js'
     feedLinks: {

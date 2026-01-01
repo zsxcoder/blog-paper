@@ -1,4 +1,4 @@
-import { HashIcon, MenuSquare, Search, TagIcon, Users, X } from "lucide-react";
+import { HashIcon, MenuSquare, RefreshCw, Search, TagIcon, Users, X } from "lucide-react";
 import { GetStaticProps } from "next";
 import dynamic from "next/dynamic";
 import Head from "next/head";
@@ -20,13 +20,14 @@ import Topbar from "../../components/page/topbar";
 import { clientList } from "../../lib/data/client";
 import { MemoInfo, MemoPost, MemoTag } from "../../lib/data/memos.common";
 import { memo_db, writeMemoJson } from "../../lib/data/server";
-import { useDocumentEvent } from "../../lib/hooks/use-event";
+import { useDocumentEvent } from "../../lib/hooks/use-event";;
 import useSearch from "../../lib/hooks/use-search";
 import { mdLength } from "../../lib/markdown/md-length";
 import { compileMdxMemo } from "../../lib/markdown/mdx";
 import { SearchObj } from "../../lib/search";
 import { siteInfo } from "../../site.config";
 import { fadeInRight } from "../../styles/animations";
+import { FRIEND_LINKS } from "../../friends";
 import { dropShadow, floatMenu } from "../../styles/css";
 import { Extend } from "../../utils/type-utils";
 
@@ -57,6 +58,21 @@ export default function Memos({ source, info, memotags, client }: Props) {
   const [isCommentModal, setIsCommentModal] = useState(false)
   const [postsData, setpostsData] = useState(source)
   const [postsDataBackup, setpostsDataBackup] = useState(source)
+
+  // Random friends - show 5 random friends
+  const [randomFriends, setRandomFriends] = useState<Array<{ name: string, link: string }>>([])
+
+  // Initialize random friends
+  const initializeRandomFriends = () => {
+    const allFriends = FRIEND_LINKS.map(link => ({ name: link.name, link: link.url }))
+    const shuffled = [...allFriends].sort(() => 0.5 - Math.random())
+    setRandomFriends(shuffled.slice(0, 5))
+  }
+
+  // Initialize on mount
+  useEffect(() => {
+    initializeRandomFriends()
+  }, [])
 
 
   // search engine init
@@ -194,7 +210,7 @@ export default function Memos({ source, info, memotags, client }: Props) {
             </Col>
             <SiderContent $isMobileSider={isMobileSider}>
               <div className="close-btn" onClick={(e) => { e.stopPropagation(); setIsMobileSider(v => !v) }}>
-                小小の菜单<X size={"1.25em"} style={{ marginLeft: ".5rem" }} />
+                小小のメニュー<X size={"1.25em"} style={{ marginLeft: ".5rem" }} />
               </div>
               <MemoSearchBox>
                 <input type="text" placeholder={t("search")} ref={inputRef}
@@ -222,12 +238,19 @@ export default function Memos({ source, info, memotags, client }: Props) {
                 })}
 
               </CardCommon>
-              {siteInfo.friends
+              {randomFriends.length > 0
                 && <CardCommon
                   title={t("friends")}
                   Icon={Users}
                 >
-                  {siteInfo.friends.map((f, i) => <div key={i}><LinkWithLine href={f.link}>{f.name}</LinkWithLine></div>)}
+                  <CardTitleRow>
+                    <span>{t("friends")}</span>
+                    <RefreshButton onClick={initializeRandomFriends} title="刷新友链">
+                      <RefreshCw size={14} />
+                    </RefreshButton>
+                  </CardTitleRow>
+                  {randomFriends.map((f, i) => <FriendLink key={i} href={f.link}>{f.name}</FriendLink>)}
+                  <MoreLink href="/link">更多…</MoreLink>
                 </CardCommon>
               }
               {siteInfo.walineApi && siteInfo.walineApi !== "" && <CommentCard setIsCommentModal={setIsCommentModal} />}
@@ -463,4 +486,40 @@ const CommentContainer = styled.div`
     margin-top: 2vh;
     border-radius: 0.5rem;
   }
+`
+
+const CardTitleRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+`
+
+const RefreshButton = styled.button`
+  padding: 0.25em 0.5em;
+  border: none;
+  border-radius: 0.25rem;
+  background: none;
+  color: ${p => p.theme.colors.textGray2};
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background-color: ${p => p.theme.colors.bg2};
+    color: ${p => p.theme.colors.accent};
+  }
+`
+
+const FriendLink = styled(LinkWithLine)`
+  display: block;
+  padding: 0.3em 0;
+`
+
+const MoreLink = styled(LinkWithLine)`
+  display: block;
+  padding: 0.3em 0;
+  color: ${p => p.theme.colors.accent};
 `

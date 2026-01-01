@@ -2,6 +2,7 @@
   "ui": {
     "posts": "Posts",
     "memos": "Memos",
+    "mastodon": "Mastodon",
     "about": "About",
     "photos": "Photos",
     "allposts": "All Posts",

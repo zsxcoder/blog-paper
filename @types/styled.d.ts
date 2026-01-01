@@ -8,6 +8,10 @@ declare module 'styled-components' {
       favico: string,
     },
     colors: {
+      [x: string]: Interpolation<FastOmit<DetailedHTMLProps<HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement>, never>>;
+      [x: string]: Interpolation<FastOmit<DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>, never>>;
+      [x: string]: Interpolation<Substitute<DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>, { $copied: boolean; }>>;
+      text: Interpolation<FastOmit<DetailedHTMLProps<HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement>, never>>;
       textPrimary: string,
       textSecondary: string,
       textGray: string,

@@ -35,7 +35,7 @@ export default function Sidebar({ isShow, toggle }: Props) {
       <Content style={{ paddingTop: '8rem' }}>
         <h1 data-i={"0"}>
           <span>
-            {"SANSUI'S BLOG"}
+            {"钟神秀'S BLOG"}
           </span>
         </h1>
         <div data-i={"1"} onClick={handleThemeChange}>
@@ -51,7 +51,7 @@ export default function Sidebar({ isShow, toggle }: Props) {
             <a href={`mailto:${siteInfo.social.email}`}><Mail /></a>
             <a href="/rss"><Rss /></a>
           </Icons>
-          <div style={{ margin: "1rem auto" }}>Sansui 2025<br />All rights reserved</div>
+          <div style={{ margin: "1rem auto" }}>钟神秀 2026<br />All rights reserved</div>
         </LastSection>
       </Content>
       <PositionedClose>
@@ -93,7 +93,7 @@ const Container = styled.section`
   position: fixed;
   width: 100%;
   height: 100%;
-  z-index: 9;
+  z-index: 9999;
   opacity: 0;
   backdrop-filter: blur(6px);
   transition: all 0.5s cubic-bezier(0.46, 0, 0.08, 1.11);

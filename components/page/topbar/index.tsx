@@ -95,12 +95,14 @@ export default function Topbar({ placeHolder = true, scrollElem, hideSearch, ...
           <Link href="/" passHref={true} style={{ padding: "0 1rem" }}>
             {/*eslint-disable-next-line @next/next/no-img-element*/}
             <Neko width="36" />
-            <span>{`${siteInfo.author}'s 's blog`}</span>
+            <span>{`${siteInfo.author}'s blog`}</span>
           </Link>
         </Avatar>
         <Nav>
           <ol className={router.pathname === "/" || router.pathname.startsWith("/posts") ? 'current' : ''}><LinkWithLine href="/">{t('posts')}</LinkWithLine></ol>
           <ol className={router.pathname === "/memos" ? 'current' : ''}><LinkWithLine href="/memos">{t('memos')}</LinkWithLine></ol>
+          <ol className={router.pathname === "/mastodon" ? 'current' : ''}><LinkWithLine href="/mastodon">{t('mastodon')}</LinkWithLine></ol>
+          {/* <ol className={router.pathname === "/friends" ? 'current' : ''}><LinkWithLine href="/friends">{t('friends')}</LinkWithLine></ol> */}
           <ol className={router.pathname === "/about" ? 'current' : ''}><LinkWithLine href="/about">{t('about')}</LinkWithLine></ol>
         </Nav>
         <More>
@@ -108,12 +110,16 @@ export default function Topbar({ placeHolder = true, scrollElem, hideSearch, ...
             <div className={"subnav " + (isDropperOpen ? "open" : "")}>
               {router.pathname !== "/" && !router.pathname.startsWith("/posts") && <Link href="/">{t('posts')}</Link>}
               {!router.pathname.startsWith("/memos") && <Link href="/memos">{t('memos')}</Link>}
+              {!router.pathname.startsWith("/mastodon") && <Link href="/mastodon">{t('mastodon')}</Link>}
+              {/* {!router.pathname.startsWith("/friends") && <Link href="/friends">{t('friends')}</Link>} */}
               {!router.pathname.startsWith("/about") && <Link href="/about">{t('about')}</Link>}
             </div>
             <button style={{ position: "relative" }} onClick={() => setIsDropperOpen(v => !v)}>
               {router.pathname === "/" || router.pathname.startsWith("/posts") ? t('posts')
                 : router.pathname === "/memos" ? t('memos')
-                  : router.pathname === "/about" ? t('about') : ""}
+                  : router.pathname === "/mastodon" ? t('mastodon')
+                    // : router.pathname === "/friends" ? t('friends')
+                      : router.pathname === "/about" ? t('about') : ""}
               <ChevronDown size={"1.25em"} style={{ marginRight: "-0.5rem" }} />
             </button>
           </MobileNav>
