@@ -93,7 +93,7 @@ export function ImageThumbs({ imgsmd }: {
             : 2, // 没图……？
         }}>
           {/*eslint-disable-next-line @next/next/no-img-element*/} {/* eslint-disable-next-line jsx-a11y/alt-text */}
-          <img loading="lazy" src={thumbData[0]?.ok === "loaded" ? thumbData[0]?.src : ""} alt={thumbData[0]?.ok} />
+          {thumbData[0]?.ok === "loaded" && <img loading="lazy" src={thumbData[0]?.src} alt={thumbData[0]?.alt} />}
           <ClickMask onClick={e => {
             e.stopPropagation()
             ctx.setCurrentIndex(0)
@@ -108,7 +108,7 @@ export function ImageThumbs({ imgsmd }: {
           return (
             <ImageContainer key={i} onTouchEnd={e => { e.stopPropagation() }} >
               {/*eslint-disable-next-line @next/next/no-img-element*/} {/* eslint-disable-next-line jsx-a11y/alt-text */}
-              <img loading="lazy" src={img.ok === "loaded" ? img.src : ""} alt={img.ok} />
+              {img.ok === "loaded" && <img loading="lazy" src={img.src} alt={img.alt} />}
               <ClickMask onClick={e => {
                 e.stopPropagation()
                 // console.debug("% click on", i)

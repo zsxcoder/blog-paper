@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-
-  output: 'export',
+  // output: 'export', // 注释掉以支持开发模式下的 HMR，生产构建可临时启用
 
   images: {
     loader: 'custom',

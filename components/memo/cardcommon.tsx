@@ -6,13 +6,17 @@ import styled from "styled-components"
 type Props = React.HTMLProps<HTMLDivElement> & {
   title: string,
   Icon?: LucideIcon
+  extra?: React.ReactNode
 }
 
-export default function CardCommon({ title, Icon, children, ...otherprops }: Props) {
+export default function CardCommon({ title, Icon, extra, children, ...otherprops }: Props) {
   return <CardContainer {...otherprops}>
     <CardTitle>
-      {Icon && <Icon size={"1em"} style={{ marginRight: "0.5em" }} />}
-      {title}
+      <TitleContent>
+        {Icon && <Icon size={"1em"} style={{ marginRight: "0.5em" }} />}
+        {title}
+      </TitleContent>
+      {extra && <ExtraContent>{extra}</ExtraContent>}
     </CardTitle>
     <div style={{ paddingTop: "0.5rem", fontSize: "0.9rem" }}>
       {children}
@@ -32,4 +36,17 @@ const CardTitle = styled.div`
   text-transform: uppercase;
   font-size: 0.875rem;
   color: ${p => p.theme.colors.textGray2};
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`
+
+const TitleContent = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+const ExtraContent = styled.div`
+  display: flex;
+  align-items: center;
 `

@@ -242,13 +242,12 @@ export default function Memos({ source, info, memotags, client }: Props) {
                 && <CardCommon
                   title={t("friends")}
                   Icon={Users}
-                >
-                  <CardTitleRow>
-                    <span>{t("friends")}</span>
+                  extra={
                     <RefreshButton onClick={initializeRandomFriends} title="刷新友链">
                       <RefreshCw size={14} />
                     </RefreshButton>
-                  </CardTitleRow>
+                  }
+                >
                   {randomFriends.map((f, i) => <FriendLink key={i} href={f.link}>{f.name}</FriendLink>)}
                   <MoreLink href="/link">更多…</MoreLink>
                 </CardCommon>
@@ -486,13 +485,6 @@ const CommentContainer = styled.div`
     margin-top: 2vh;
     border-radius: 0.5rem;
   }
-`
-
-const CardTitleRow = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
 `
 
 const RefreshButton = styled.button`
