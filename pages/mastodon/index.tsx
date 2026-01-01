@@ -1,7 +1,8 @@
 import { MenuSquare, RefreshCw, Users, X } from "lucide-react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
-import { useCallback, useContext, useEffect, useState } from "react";
+import Image from "next/image";
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled, { ThemeContext } from "styled-components";
 import ButtonFloat from "../../components/common/button-float";
@@ -48,12 +49,12 @@ export default function Mastodon() {
   }, [])
 
   // Config from environment variables
-  const config: Omit<MastodonConfig, 'token'> = {
+  const config: Omit<MastodonConfig, 'token'> = useMemo(() => ({
     instance: process.env.NEXT_PUBLIC_MASTODON_INSTANCE || '',
     userId: process.env.NEXT_PUBLIC_MASTODON_USER_ID || '',
     tag: process.env.NEXT_PUBLIC_MASTODON_TAG || undefined,
     shownMax: parseInt(process.env.NEXT_PUBLIC_MASTODON_SHOWN_MAX || '20'),
-  }
+  }), [])
 
   // Fetch statuses from Mastodon API
   const fetchStatuses = useCallback(async (maxId?: string) => {
@@ -207,7 +208,13 @@ export default function Mastodon() {
               {selectedImages.map((img, idx) => (
                 <ImageWrapper key={idx}>
                   <a href={img.url} target="_blank" rel="noopener noreferrer">
-                    <img src={img.preview_url} alt={`Attachment ${idx + 1}`} />
+                    <Image
+                      src={img.preview_url}
+                      alt={`Attachment ${idx + 1}`}
+                      width={800}
+                      height={600}
+                      unoptimized
+                    />
                   </a>
                 </ImageWrapper>
               ))}
@@ -260,7 +267,15 @@ function MastodonStatusCard({ status, onShowImage }: { status: MastodonStatus, o
       {isReply && <ReplyBadge>Reply</ReplyBadge>}
       <StatusContent>
         <StatusMeta>
-          <img className="avatar" src={displayStatus.account.avatar_static} alt={displayStatus.account.display_name} />
+          <div className="avatar">
+            <Image
+              src={displayStatus.account.avatar_static}
+              alt={displayStatus.account.display_name}
+              width={40}
+              height={40}
+              unoptimized
+            />
+          </div>
           <div className="meta-text">
             <span className="author">{displayStatus.account.display_name}</span>
             <span className="meta-sm">@{displayStatus.account.username}</span>
@@ -524,6 +539,14 @@ const StatusMeta = styled.div`
     margin-right: 8px;
     border-radius: 50%;
     border: 1px solid ${p => p.theme.colors.uiLineGray};
+    position: relative;
+    overflow: hidden;
+  }
+
+  .avatar img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
   }
 
   .meta-text {
@@ -635,6 +658,7 @@ const ImageWrapper = styled.div`
 
     img {
       max-width: 100%;
+      height: auto !important;
       border-radius: 0.5rem;
     }
   }

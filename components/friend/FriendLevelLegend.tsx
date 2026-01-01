@@ -143,10 +143,11 @@ const FriendLevelLegend: React.FC = () => {
                 <InnerContent $expanded={isExpanded}>
                     <LevelGrid>
                         {FRIEND_LEVELS.map((level, index) => {
-                            const prevDays = index === 0 ? 0 : FRIEND_LEVELS[index - 1].days;
+                            const prevLevel = FRIEND_LEVELS[index - 1];
+                            const prevDays = prevLevel ? prevLevel.days + 1 : 0;
                             const isLast = index === FRIEND_LEVELS.length - 1;
                             const dayRange = isLast ? `${level.days}天+` : `${prevDays}-${level.days}天`;
-                            
+
                             return (
                                 <LevelItem key={level.level}>
                                     <LevelIconWrapper $theme={getThemeColor(level.theme)}>
