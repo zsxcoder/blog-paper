@@ -119,10 +119,9 @@ const Description = styled.p`
     color: ${props => props.theme.colors.textGray2};
     line-height: 1.4;
     margin-top: 0.25rem;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
     overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 `;
 
 const Stamp = styled.div<{ $color: string }>`
