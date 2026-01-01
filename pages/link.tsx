@@ -10,6 +10,7 @@ import FriendLevelLegend from '../components/friend/FriendLevelLegend';
 import FriendsList from '../components/friend/FriendsList';
 import DisconnectedFriendsList from '../components/friend/DisconnectedFriendsList';
 import SiteInfo from '../components/friend/SiteInfo';
+import Waline from '../components/page/waline';
 import { useTranslation } from 'react-i18next';
 import { bottomFadeIn } from '../styles/animations';
 
@@ -235,7 +236,7 @@ export default function Link() {
                         <InfoSection>
                             <ApplyCard>
                                 <CardHeader>
-                                    <IconWrapper $color={theme.colors.accent}>
+                                    <IconWrapper $color={theme?.colors?.accent || '#666666'}>
                                         <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                         </svg>
@@ -263,6 +264,8 @@ export default function Link() {
                                 />
                             </SiteInfoWrapper>
                         </InfoSection>
+                        
+                        <Waline />
                     </Container>
                 </Main>
             </StyledLayout>
