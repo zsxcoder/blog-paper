@@ -186,10 +186,10 @@ export default function Memos({ source, info, memotags, client }: Props) {
       <Topbar
         placeHolder={false}
         hideSearch={true}
-        style={{ borderBottom: "1px solid " + theme?.colors.uiLineGray2 }}
+        style={{ borderBottom: "1px solid " + theme?.colors?.uiLineGray2 }}
       />
       <main style={{
-        background: theme?.colors.bg2
+        background: theme?.colors?.bg2
       }}>
         <OneColLayout>
           <ButtonFloat
@@ -485,6 +485,13 @@ const CommentContainer = styled.div`
     margin-top: 2vh;
     border-radius: 0.5rem;
   }
+`
+
+const CardTitleRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
 `
 
 const RefreshButton = styled.button`

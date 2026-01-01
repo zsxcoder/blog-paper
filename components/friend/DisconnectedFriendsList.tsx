@@ -105,7 +105,7 @@ const DisconnectedFriendsList: React.FC<DisconnectedFriendsListProps> = ({ links
     return (
         <Container>
             <Header>
-                <Ghost size={20} style={{ color: theme?.colors.textGray2 }} />
+                <Ghost size={20} style={{ color: theme?.colors?.textGray2 || '#666666' }} />
                 <Title>失联友链</Title>
             </Header>
             <Description>这些站点暂时无法访问，但我会定期检查，期待它们的回归。</Description>

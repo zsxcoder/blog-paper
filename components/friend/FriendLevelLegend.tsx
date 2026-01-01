@@ -131,10 +131,10 @@ const FriendLevelLegend: React.FC = () => {
         <Container>
             <Header onClick={() => setIsExpanded(!isExpanded)}>
                 <Title>
-                    <Info size={20} style={{ color: theme.colors.textGray2 }} />
+                    <Info size={20} style={{ color: theme?.colors?.textGray2 || '#666666' }} />
                     友链印记说明
                 </Title>
-                <div style={{ color: theme.colors.textGray2 }}>
+                <div style={{ color: theme?.colors?.textGray2 || '#666666' }}>
                     {isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
                 </div>
             </Header>

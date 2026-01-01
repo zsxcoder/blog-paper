@@ -187,15 +187,6 @@ const FriendCard: React.FC<FriendCardProps> = ({ link }) => {
     const imgRef = useRef<HTMLDivElement>(null);
     const theme = useContext(ThemeContext);
 
-    // 添加 theme 检查
-    const themeColors = theme?.colors || {
-        uiLineGray2: '#e0e0e0',
-        textGray3: '#bdbdbd',
-        text: '#212121',
-        textGray2: '#666666',
-        bg: '#ffffff'
-    };
-
     // 计算已添加天数
     const getDaysAdded = () => {
         if (!link.addDate) return 0;
@@ -240,7 +231,7 @@ const FriendCard: React.FC<FriendCardProps> = ({ link }) => {
 
     // 转换主题颜色
     const getThemeColor = () => {
-        if (!levelInfo) return themeColors.textGray2;
+        if (!levelInfo) return theme?.colors?.textGray2 || '#666666';
         return levelInfo.color.includes('dark') 
             ? levelInfo.color.replace('dark:', '') 
             : levelInfo.color;
@@ -252,7 +243,7 @@ const FriendCard: React.FC<FriendCardProps> = ({ link }) => {
             target="_blank"
             rel="noopener noreferrer"
             style={{
-                borderColor: levelInfo ? undefined : themeColors.uiLineGray2
+                borderColor: levelInfo ? undefined : theme?.colors?.uiLineGray2 || '#444444'
             }}
         >
             {levelInfo && (
@@ -278,7 +269,7 @@ const FriendCard: React.FC<FriendCardProps> = ({ link }) => {
                         position: 'absolute',
                         inset: 0,
                         borderRadius: '50%',
-                        background: themeColors.textGray3,
+                        background: theme?.colors?.textGray3 || '#888888',
                         animation: 'pulse 1.5s ease-in-out infinite'
                     }} />
                 )}

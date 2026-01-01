@@ -1,8 +1,8 @@
 import { MenuSquare, RefreshCw, Users, X } from "lucide-react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
-import Image from "next/image";
-import { useCallback, useContext, useEffect, useMemo, useState } from "react";
+import Image from 'next/image';
+import { useCallback, useContext, useEffect, useMemo, useState, lazy, Suspense } from 'react';
 import { useTranslation } from "react-i18next";
 import styled, { ThemeContext } from "styled-components";
 import ButtonFloat from "../../components/common/button-float";
@@ -49,12 +49,14 @@ export default function Mastodon() {
   }, [])
 
   // Config from environment variables
-  const config: Omit<MastodonConfig, 'token'> = useMemo(() => ({
-    instance: process.env.NEXT_PUBLIC_MASTODON_INSTANCE || '',
-    userId: process.env.NEXT_PUBLIC_MASTODON_USER_ID || '',
-    tag: process.env.NEXT_PUBLIC_MASTODON_TAG || undefined,
-    shownMax: parseInt(process.env.NEXT_PUBLIC_MASTODON_SHOWN_MAX || '20'),
-  }), [])
+  const config = useMemo(() => {
+    return {
+      instance: process.env.NEXT_PUBLIC_MASTODON_INSTANCE || '',
+      userId: process.env.NEXT_PUBLIC_MASTODON_USER_ID || '',
+      tag: process.env.NEXT_PUBLIC_MASTODON_TAG || undefined,
+      shownMax: parseInt(process.env.NEXT_PUBLIC_MASTODON_SHOWN_MAX || '20'),
+    } as Omit<MastodonConfig, 'token'>
+  }, [])
 
   // Fetch statuses from Mastodon API
   const fetchStatuses = useCallback(async (maxId?: string) => {
@@ -94,7 +96,7 @@ export default function Mastodon() {
     } finally {
       setLoading(false)
     }
-  }, [config])
+  }, [config])  // This config now comes from useMemo, so it won't change on every render
 
   // Initial fetch
   useEffect(() => {
@@ -131,10 +133,10 @@ export default function Mastodon() {
       <Topbar
         placeHolder={false}
         hideSearch={true}
-        style={{ borderBottom: "1px solid " + theme?.colors.uiLineGray2 }}
+        style={{ borderBottom: "1px solid " + theme?.colors?.uiLineGray2 }}
       />
       <main style={{
-        background: theme?.colors.bg2
+        background: theme?.colors?.bg2
       }}>
         <OneColLayout>
           <ButtonFloat
@@ -203,17 +205,18 @@ export default function Mastodon() {
             setModal={handleCloseImages}
             style={{ background: "transparent" }}
             isAnimated={true}
-            showCloseBtn={true}>
+            showCloseBtn={true}
+          >
             <ImageContainer>
               {selectedImages.map((img, idx) => (
                 <ImageWrapper key={idx}>
                   <a href={img.url} target="_blank" rel="noopener noreferrer">
-                    <Image
-                      src={img.preview_url}
-                      alt={`Attachment ${idx + 1}`}
-                      width={800}
-                      height={600}
-                      unoptimized
+                    <Image 
+                      src={img.preview_url} 
+                      alt={`Attachment ${idx + 1}`} 
+                      width={150}
+                      height={150}
+                      layout="responsive"
                     />
                   </a>
                 </ImageWrapper>
@@ -267,15 +270,13 @@ function MastodonStatusCard({ status, onShowImage }: { status: MastodonStatus, o
       {isReply && <ReplyBadge>Reply</ReplyBadge>}
       <StatusContent>
         <StatusMeta>
-          <div className="avatar">
-            <Image
-              src={displayStatus.account.avatar_static}
-              alt={displayStatus.account.display_name}
-              width={40}
-              height={40}
-              unoptimized
-            />
-          </div>
+          <Image 
+            className="avatar" 
+            src={displayStatus.account.avatar_static} 
+            alt={displayStatus.account.display_name} 
+            width={48}
+            height={48}
+          />
           <div className="meta-text">
             <span className="author">{displayStatus.account.display_name}</span>
             <span className="meta-sm">@{displayStatus.account.username}</span>
@@ -539,14 +540,6 @@ const StatusMeta = styled.div`
     margin-right: 8px;
     border-radius: 50%;
     border: 1px solid ${p => p.theme.colors.uiLineGray};
-    position: relative;
-    overflow: hidden;
-  }
-
-  .avatar img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
   }
 
   .meta-text {
@@ -658,7 +651,6 @@ const ImageWrapper = styled.div`
 
     img {
       max-width: 100%;
-      height: auto !important;
       border-radius: 0.5rem;
     }
   }
@@ -687,6 +679,13 @@ const CommentContainer = styled.div`
     margin-top: 2vh;
     border-radius: 0.5rem;
   }
+`
+
+const CardTitleRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
 `
 
 const RefreshButton = styled.button`
