@@ -4,7 +4,7 @@ import { getDynamicPaths } from "utils/dynamic-path";
 export default {
   // Config options...
   // ssr-false to no-server SSG
-  ssr: false,
+  ssr: true,
   prerender: async ({ getStaticPaths }) => {
     const paths = await getStaticPaths();
     const dyn_paths = await getDynamicPaths();

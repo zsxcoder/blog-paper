@@ -14,7 +14,7 @@ export default defineConfig({
   collections: {
     posts: {
       name: "Post", // collection type name
-      pattern: "posts/*.md", // content files glob pattern
+      pattern: "content/posts/*.md", // content files glob pattern
       schema: s
         .object({
           title: s.string().max(99), // Zod primitive type
@@ -44,7 +44,7 @@ export default defineConfig({
     },
     memos: {
       name: "Memo",
-      pattern: "memos/*.md",
+      pattern: "content/memos/*.md",
       schema: s.object({
         title: s.string().max(99),
         file_path: s.path(),
