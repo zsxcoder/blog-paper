@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "pre": "velite",
+    "pre": "velite && node fix-velite-export.js",
     "dev": "react-router dev",
     "build": "react-router build && mv ./build/client/404/index.html ./build/client/404.html",
     "start": "npx serve ./build/client",
